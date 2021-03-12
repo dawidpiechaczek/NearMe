@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GalleryPage extends StatefulWidget {
   GalleryPage({Key key, this.title}) : super(key: key);
@@ -10,6 +13,21 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +55,15 @@ class _GalleryPageState extends State<GalleryPage> {
         children: List.generate(9, (index) {
           return Padding(
             padding: EdgeInsets.all(4),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(0xFFE0E0E0),
-                  borderRadius: BorderRadius.circular(8)),
-              child: Center(
-                child: index == 0 ? Icon(Icons.add) : null,
+            child: InkWell(
+              onTap: getImage,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color(0xFFE0E0E0),
+                    borderRadius: BorderRadius.circular(8)),
+                child: Center(
+                  child: index == 0 ? Icon(Icons.add) : null,
+                ),
               ),
             ),
           );
