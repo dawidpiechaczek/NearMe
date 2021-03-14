@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,7 +12,7 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
-  File _image;
+  List<File> _images = List.filled(9, null);
   final picker = ImagePicker();
 
   Future getImage() async {
@@ -21,7 +20,8 @@ class _GalleryPageState extends State<GalleryPage> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        int firstNull = _images.indexOf(null);
+        _images[firstNull] = File(pickedFile.path);
       } else {
         print('No image selected.');
       }
@@ -48,32 +48,54 @@ class _GalleryPageState extends State<GalleryPage> {
 
   Expanded photosContainer() {
     return Expanded(
-      child: GridView.count(
-        padding: EdgeInsets.only(right: 8, left: 8),
-        childAspectRatio: 3 / 4,
-        crossAxisCount: 3,
-        children: List.generate(9, (index) {
-          return Padding(
-            padding: EdgeInsets.all(4),
-            child: InkWell(
-              onTap: getImage,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color(0xFFE0E0E0),
-                    borderRadius: BorderRadius.circular(8)),
-                child: Center(
-                  child: index == 0 ? Icon(Icons.add) : null,
-                ),
-              ),
-            ),
-          );
-        }),
+      child: GridView.builder(
+          itemCount: _images.length,
+          padding: EdgeInsets.only(right: 8, left: 8),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 3 / 4,
+            crossAxisCount: 3,
+          ),
+          itemBuilder: (ctx, index) {
+            return gridElement(index);
+          }),
+    );
+  }
+
+  Padding gridElement(int index) {
+    return Padding(
+      padding: EdgeInsets.all(4),
+      child: InkWell(
+        onTap: getImage,
+        child: Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFE0E0E0), borderRadius: BorderRadius.circular(8)),
+          child: Center(
+            child: _images[index] == null
+                ? Icon(Icons.add)
+                : imageWithRemovalButton(index),
+          ),
+        ),
       ),
     );
   }
 
-  FlatButton skipButton() {
-    return FlatButton(
+  Stack imageWithRemovalButton(int index) {
+    return Stack(
+      children: <Widget>[
+        Image.file(_images[index]),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Icon(Icons.delete_forever_rounded)),
+        )
+      ],
+    );
+  }
+
+  TextButton skipButton() {
+    return TextButton(
       onPressed: null,
       child: Text(
         "POMIŃ",
