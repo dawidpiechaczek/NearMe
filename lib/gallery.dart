@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class GalleryPage extends StatefulWidget {
-  GalleryPage({Key key, this.title}) : super(key: key);
+  GalleryPage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _GalleryPageState createState() => _GalleryPageState();
 }
 
 class _GalleryPageState extends State<GalleryPage> {
-  List<File> _images = List.filled(9, null);
+  List<File?> _images = List.filled(9, null);
   final picker = ImagePicker();
 
   Future getImage() async {
@@ -26,6 +26,14 @@ class _GalleryPageState extends State<GalleryPage> {
         print('No image selected.');
       }
     });
+  }
+
+  int removeImage(int index) {
+    setState(() {
+      _images[index] = null;
+    });
+
+    return index;
   }
 
   @override
@@ -82,13 +90,16 @@ class _GalleryPageState extends State<GalleryPage> {
   Stack imageWithRemovalButton(int index) {
     return Stack(
       children: <Widget>[
-        Image.file(_images[index]),
+        InkWell(
+          child: _images[index] != null ? Image.file(_images[index]!) : null,
+          onTap: () {
+            removeImage(index);
+          },
+        ),
         Positioned(
           top: 0,
           right: 0,
-          child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(Icons.delete_forever_rounded)),
+          child: Padding(padding: EdgeInsets.all(8), child: Icon(Icons.delete)),
         )
       ],
     );
@@ -132,6 +143,7 @@ class _GalleryPageState extends State<GalleryPage> {
       actions: [
         IconButton(
           icon: Icon(Icons.check, color: Colors.blue),
+          onPressed: () {},
         )
       ],
       title: Text(
