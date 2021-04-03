@@ -1,8 +1,10 @@
 import 'package:NearMe/gallery.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 
@@ -107,63 +109,140 @@ class _MyHomePageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: null,
+      body: Stack(children: [
+        backgroundPhoto(),
+        backgroundGradient(),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            welcomeText(),
+            roundedButton(
+                Colors.blue,
+                "Login with Facebook",
+                FontAwesomeIcons.facebook,
+                16,
+                16,
+                4,
+                Colors.transparent,
+                _navigateToGallery),
+            roundedButton(
+                Colors.red,
+                "Login with Google",
+                FontAwesomeIcons.google,
+                16,
+                16,
+                4,
+                Colors.transparent,
+                _handleSignIn),
+            roundedButton(Colors.transparent, "Login with phone number", null,
+                18, 18, 0, Colors.white, _navigateToGallery),
+            privacyPolicyAndRulesText()
+          ],
+        ),
+        logo(),
+      ]),
+    );
+  }
+
+  Align logo() {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsets.only(top: 64),
+        child: Image.asset(
+          'assets/images/app_logo.png',
+        ),
+      ),
+    );
+  }
+
+  Container backgroundGradient() {
     return Container(
-        decoration: homeBackground(),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: null,
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                logo(),
-                roundedButton(
-                    Colors.blue,
-                    "Login with Facebook",
-                    FontAwesomeIcons.facebook,
-                    12,
-                    12,
-                    4,
-                    Colors.transparent,
-                    _navigateToGallery),
-                roundedButton(
-                    Colors.red,
-                    "Login with Google",
-                    FontAwesomeIcons.google,
-                    12,
-                    12,
-                    4,
-                    Colors.transparent,
-                    _handleSignIn),
-                roundedButton(Colors.transparent, "Login with phone number",
-                    null, 16, 16, 0, Colors.white, _navigateToGallery),
-                Text("TEXT: $_contactText")
-              ],
-            ),
-          ),
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [
+            0.0,
+            1.0
+          ],
+              colors: [
+            Colors.blue.withOpacity(0.8),
+            Colors.purple,
+          ])),
+    );
+  }
+
+  Padding welcomeText() {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 72, right: 32, left: 32, top: 64),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(children: [
+            TextSpan(
+                text: "Poznawaj ",
+                style: TextStyle(
+                    fontSize: 36,
+                    fontFamily: 'Nunito',
+                    fontWeight: FontWeight.bold)),
+            TextSpan(
+                text: 'ludzi, którzy są w zasięgu Twojego wzroku',
+                style: TextStyle(
+                    fontSize: 36, fontFamily: 'Nunito', color: Colors.white))
+          ]),
         ));
   }
 
-  BoxDecoration homeBackground() {
-    return BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.3, 0.5, 0.9],
-            colors: [Color(0xFFB3E5FC), Color(0xFF81D4FA), Color(0xFF4FC3F7)]));
+  Padding privacyPolicyAndRulesText() {
+    return Padding(
+        padding: EdgeInsets.only(top: 32, right: 32, left: 32),
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              style: TextStyle(
+                  fontSize: 14, fontFamily: 'Nunito', color: Colors.white),
+              children: [
+                TextSpan(
+                  text: "Rejestrując się zgadzasz się na ",
+                ),
+                TextSpan(
+                  text: "warunki regulaminu ",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      await launch(
+                        "http://www.google.com",
+                      );
+                    },
+                ),
+                TextSpan(
+                  text: "oraz ",
+                ),
+                TextSpan(
+                  text: "polityki prywatności",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () async {
+                      await launch("http://www.google.com");
+                    },
+                )
+              ]),
+        ));
   }
 
-  Padding logo() {
+  Padding backgroundPhoto() {
     return Padding(
-        padding: EdgeInsets.only(bottom: 100),
-        child: Column(children: <Widget>[
-          Image.asset('assets/images/logo.png', scale: 3.0),
-          Text('Near Me',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white))
-        ]));
+      padding: EdgeInsets.only(bottom: 100),
+      child: Image.asset(
+        'assets/images/background.png',
+        fit: BoxFit.fitHeight,
+        height: 450,
+        alignment: Alignment.centerLeft,
+      ),
+    );
   }
 
   Widget roundedButton(
@@ -196,7 +275,7 @@ class _MyHomePageState extends State<LoginPage> {
           onPressed: onPress,
           style: ButtonStyle(
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(10.0),
                   side: BorderSide(color: borderColor))),
               elevation: MaterialStateProperty.all(elevation),
               backgroundColor: MaterialStateProperty.all(backgroundColor),
