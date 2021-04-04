@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:NearMe/widgets/appBackground.dart';
+import 'package:NearMe/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,21 +38,30 @@ class _GalleryPageState extends State<GalleryPage> {
     return index;
   }
 
+  void _navigateToProfile() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return GalleryPage();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: galleryAppBar(),
-      body: Center(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              addPhotoTitle(),
-              addPhotoMessage(),
-              photosContainer(),
-              skipButton()
-            ]),
-      ),
+      body: Stack(children: [
+        backgroundGradient(),
+        Center(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                addPhotoTitle(),
+                photosContainer(),
+                roundedButton(Color(0xFFFBC02D), 'Zaakceptuj i przejdź dalej',
+                    null, 16, 16, 4, Colors.transparent, _navigateToProfile),
+                skipButton()
+              ]),
+        ),
+      ]),
     );
   }
 
@@ -58,7 +69,7 @@ class _GalleryPageState extends State<GalleryPage> {
     return Expanded(
       child: GridView.builder(
           itemCount: _images.length,
-          padding: EdgeInsets.only(right: 8, left: 8),
+          padding: EdgeInsets.only(right: 8, left: 8, bottom: 8),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: 3 / 4,
             crossAxisCount: 3,
@@ -76,7 +87,7 @@ class _GalleryPageState extends State<GalleryPage> {
         onTap: getImage,
         child: Container(
           decoration: BoxDecoration(
-              color: Color(0xFFE0E0E0), borderRadius: BorderRadius.circular(8)),
+              color: Colors.white, borderRadius: BorderRadius.circular(8)),
           child: Center(
             child: _images[index] == null
                 ? Icon(Icons.add)
@@ -105,32 +116,27 @@ class _GalleryPageState extends State<GalleryPage> {
     );
   }
 
-  TextButton skipButton() {
-    return TextButton(
-      onPressed: null,
-      child: Text(
-        "POMIŃ",
-        style: TextStyle(fontSize: 16),
+  Padding skipButton() {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16),
+      child: TextButton(
+        onPressed: null,
+        child: Text(
+          "POMIŃ",
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
       ),
     );
   }
 
-  Padding addPhotoMessage() {
-    return Padding(
-        padding: EdgeInsets.only(top: 8, bottom: 16, right: 16, left: 16),
-        child: Text(
-          "Pierwsze zdjęcie w Twoim albumie musi przedstawiać Ciebie",
-          textAlign: TextAlign.center,
-        ));
-  }
-
   Padding addPhotoTitle() {
     return Padding(
-      padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+      padding: EdgeInsets.only(top: 16, right: 16, left: 16, bottom: 16),
       child: Text(
-        "Przeciągnij i upuść, aby uporządkować swoje zdjęcia!",
+        "Wgraj swoje zdjęcie aby inni mogli Cię zobaczyć!",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -140,12 +146,6 @@ class _GalleryPageState extends State<GalleryPage> {
       backgroundColor: Colors.white,
       iconTheme: IconThemeData(color: Colors.blue),
       actionsIconTheme: IconThemeData(color: Colors.blue),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.check, color: Colors.blue),
-          onPressed: () {},
-        )
-      ],
       title: Text(
         "Zdjęcia",
         style: TextStyle(color: Colors.black),
