@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:NearMe/widgets/appBackground.dart';
+import 'package:NearMe/widgets/circleButton.dart';
 import 'package:NearMe/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,10 +15,10 @@ class GalleryPage extends StatefulWidget {
 }
 
 class _GalleryPageState extends State<GalleryPage> {
-  List<File?> _images = List.filled(9, null);
+  List<File?> _images = List.filled(4, null);
   final picker = ImagePicker();
 
-  Future getImage() async {
+  Future _getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
     setState(() {
@@ -30,7 +31,7 @@ class _GalleryPageState extends State<GalleryPage> {
     });
   }
 
-  int removeImage(int index) {
+  int _removeImage(int index) {
     setState(() {
       _images[index] = null;
     });
@@ -71,8 +72,9 @@ class _GalleryPageState extends State<GalleryPage> {
           itemCount: _images.length,
           padding: EdgeInsets.only(right: 8, left: 8, bottom: 8),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 3 / 4,
-            crossAxisCount: 3,
+            childAspectRatio: MediaQuery.of(context).size.width /
+                (MediaQuery.of(context).size.height / 1.75),
+            crossAxisCount: 2,
           ),
           itemBuilder: (ctx, index) {
             return gridElement(index);
@@ -83,35 +85,57 @@ class _GalleryPageState extends State<GalleryPage> {
   Padding gridElement(int index) {
     return Padding(
       padding: EdgeInsets.all(4),
-      child: InkWell(
-        onTap: getImage,
-        child: Container(
+      child: Stack(children: [
+        Container(
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(8)),
-          child: Center(
+          child: imageWithRemovalButton(index),
+        ),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Padding(
+            padding: EdgeInsets.all(8),
             child: _images[index] == null
-                ? Icon(Icons.add)
-                : imageWithRemovalButton(index),
+                ? CircleButton(
+                    onTap: () => _getImage(),
+                    icon: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    backgroundColor: Colors.black)
+                : null,
           ),
         ),
-      ),
+      ]),
     );
   }
 
   Stack imageWithRemovalButton(int index) {
     return Stack(
       children: <Widget>[
-        InkWell(
-          child: _images[index] != null ? Image.file(_images[index]!) : null,
-          onTap: () {
-            removeImage(index);
-          },
+        Container(
+          constraints: BoxConstraints(minWidth: 250, maxWidth: 300),
+          child: _images[index] != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(_images[index]!, fit: BoxFit.fitWidth))
+              : null,
         ),
         Positioned(
           top: 0,
           right: 0,
-          child: Padding(padding: EdgeInsets.all(8), child: Icon(Icons.delete)),
-        )
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: CircleButton(
+                onTap: () => _removeImage(index),
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.black),
+          ),
+        ),
       ],
     );
   }
