@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:NearMe/login.dart';
+import 'package:NearMe/screen/login.dart';
 
 void main() {
   runApp(MyApp());

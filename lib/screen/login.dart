@@ -1,5 +1,5 @@
 import 'package:NearMe/widgets/appBackground.dart';
-import 'package:NearMe/gallery.dart';
+import 'package:NearMe/screen/gallery.dart';
 import 'package:NearMe/widgets/roundedButton.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
   final String? title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -26,7 +26,7 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
-class _MyHomePageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:NearMe/screen/conditions.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/circleButton.dart';
 import 'package:NearMe/widgets/roundedButton.dart';
@@ -39,9 +40,9 @@ class _GalleryPageState extends State<GalleryPage> {
     return index;
   }
 
-  void _navigateToProfile() {
+  void _navigateToConditions() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return GalleryPage();
+      return ConditonsPage();
     }));
   }
 
@@ -58,7 +59,7 @@ class _GalleryPageState extends State<GalleryPage> {
                 addPhotoTitle(),
                 photosContainer(),
                 roundedButton(Color(0xFFFBC02D), 'Zaakceptuj i przejdź dalej',
-                    null, 16, 16, 4, Colors.transparent, _navigateToProfile),
+                    null, 16, 16, 4, Colors.transparent, _navigateToConditions),
                 skipButton()
               ]),
         ),
