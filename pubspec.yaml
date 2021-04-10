@@ -41,6 +41,12 @@ flutter:
       - assets/images/app_logo.png
       - assets/images/icon_analytical_conditions.png
       - assets/images/icon_technical_conditions.png
+      - assets/images/profile_photo.png
+      - assets/images/icon_group.png
+      - assets/images/icon_heart.png
+      - assets/images/icon_user_add.png
+      - assets/images/icon_help.png
+      - assets/images/icon_settings.png
   fonts:
     - family: Nunito
       fonts:

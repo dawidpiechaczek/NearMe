@@ -1,3 +1,4 @@
+import 'package:NearMe/screen/profile.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _ConditonsPageState extends State<ConditonsPage> {
 
   void _navigateToProfile() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ConditonsPage();
+      return ProfileMainPage();
     }));
   }
 
@@ -33,61 +34,73 @@ class _ConditonsPageState extends State<ConditonsPage> {
         backgroundGradient(),
         Center(
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: 20, left: 16, right: 16, bottom: 32),
-                    child: Text(
-                      "Przechowujemy Twoje dane w tajemnicy",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                          color: Colors.white),
-                    )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    conditionTile(
-                        Image.asset(
-                          'assets/images/icon_technical_conditions.png',
-                        ),
-                        "Wymagania techniczne"),
-                    conditionTile(
-                        Image.asset(
-                          'assets/images/icon_analytical_conditions.png',
-                        ),
-                        "Cele analityczne")
-                  ],
-                ),
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: 20, left: 16, right: 16, bottom: 32),
-                    child: Text(
-                      "Kliknij na ikonę aby dowiedzieć się więcej na temat wymagań technicznych i celów analitycznych",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(
-                        top: 20, left: 16, right: 16, bottom: 32),
-                    child: Text(
-                      "Zapoznaj się równiez z polityką cookies",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white),
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(top: 24),
-                  child: roundedButton(Color(0xFFFBC02D), 'Wyrazam zgodę', null,
-                      16, 16, 4, Colors.transparent, _navigateToProfile),
-                )
-              ]),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              conditionsTitle(),
+              rowWithConditionTiles(),
+              conditionsHint(),
+              conditionsCookies(),
+              agreeButton()
+            ],
+          ),
         ),
       ]),
+    );
+  }
+
+  Padding conditionsTitle() {
+    return Padding(
+        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 32),
+        child: Text(
+          "Przechowujemy Twoje dane w tajemnicy",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 26, color: Colors.white),
+        ));
+  }
+
+  Row rowWithConditionTiles() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        conditionTile(
+            Image.asset(
+              'assets/images/icon_technical_conditions.png',
+            ),
+            "Wymagania techniczne"),
+        conditionTile(
+            Image.asset(
+              'assets/images/icon_analytical_conditions.png',
+            ),
+            "Cele analityczne")
+      ],
+    );
+  }
+
+  Padding conditionsHint() {
+    return Padding(
+        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 32),
+        child: Text(
+          "Kliknij na ikonę aby dowiedzieć się więcej na temat wymagań technicznych i celów analitycznych",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+        ));
+  }
+
+  Padding conditionsCookies() {
+    return Padding(
+        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 32),
+        child: Text(
+          "Zapoznaj się równiez z polityką cookies",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+        ));
+  }
+
+  Padding agreeButton() {
+    return Padding(
+      padding: EdgeInsets.only(top: 24),
+      child: roundedButton(Color(0xFFFBC02D), 'Wyrazam zgodę', null, 16, 16, 4,
+          Colors.transparent, _navigateToProfile),
     );
   }
 
