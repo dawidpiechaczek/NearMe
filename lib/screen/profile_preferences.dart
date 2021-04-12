@@ -1,18 +1,19 @@
+import 'package:NearMe/screen/profile_edit.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/circleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProfileMainPage extends StatefulWidget {
-  ProfileMainPage({Key? key, this.title}) : super(key: key);
+class ProfilePreferencesPage extends StatefulWidget {
+  ProfilePreferencesPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _ProfileMainPageState createState() => _ProfileMainPageState();
+  _ProfilePreferencesState createState() => _ProfilePreferencesState();
 }
 
-class _ProfileMainPageState extends State<ProfileMainPage> {
+class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
   int _selectedIndex = 0;
 
   @override
@@ -25,6 +26,12 @@ class _ProfileMainPageState extends State<ProfileMainPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _navigateToProfileEdit() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ProfileEditPage();
+    }));
   }
 
   @override
@@ -95,7 +102,10 @@ class _ProfileMainPageState extends State<ProfileMainPage> {
                 child: CircleButton(
                   backgroundColor: Colors.white,
                   icon: Icon(Icons.edit),
-                  onTap: () {},
+                  onTap: () {
+                    _navigateToProfileEdit();
+                  },
+                  size: 30,
                 ),
               ),
             ],

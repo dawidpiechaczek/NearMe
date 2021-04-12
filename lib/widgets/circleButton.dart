@@ -6,17 +6,17 @@ class CircleButton extends StatelessWidget {
       {Key? key,
       required this.onTap,
       required this.icon,
-      required this.backgroundColor})
+      required this.backgroundColor,
+      required this.size})
       : super(key: key);
 
   final GestureTapCallback onTap;
   final Icon icon;
   final Color backgroundColor;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    double size = 30.0;
-
     return InkResponse(
       onTap: onTap,
       child: Container(

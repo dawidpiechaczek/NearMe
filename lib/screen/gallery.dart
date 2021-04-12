@@ -100,6 +100,7 @@ class _GalleryPageState extends State<GalleryPage> {
             child: _images[index] == null
                 ? CircleButton(
                     onTap: () => _getImage(),
+                    size: 30,
                     icon: Icon(
                       Icons.add,
                       color: Colors.white,
@@ -130,6 +131,7 @@ class _GalleryPageState extends State<GalleryPage> {
             padding: EdgeInsets.all(8),
             child: CircleButton(
                 onTap: () => _removeImage(index),
+                size: 30,
                 icon: Icon(
                   Icons.close,
                   color: Colors.white,

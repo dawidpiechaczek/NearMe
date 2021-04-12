@@ -1,4 +1,4 @@
-import 'package:NearMe/screen/profile.dart';
+import 'package:NearMe/screen/profile_preferences.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/roundedButton.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _ConditonsPageState extends State<ConditonsPage> {
 
   void _navigateToProfile() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ProfileMainPage();
+      return ProfilePreferencesPage();
     }));
   }
 
