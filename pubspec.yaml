@@ -47,6 +47,10 @@ flutter:
       - assets/images/icon_user_add.png
       - assets/images/icon_help.png
       - assets/images/icon_settings.png
+      - assets/images/icon_pick_user.png
+      - assets/images/icon_like_user.png
+      - assets/images/icon_refuse_user.png
+      - assets/images/near_app_icon.png
   fonts:
     - family: Nunito
       fonts:

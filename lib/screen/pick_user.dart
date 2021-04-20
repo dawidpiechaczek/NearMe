@@ -4,16 +4,16 @@ import 'package:NearMe/widgets/circleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProfileEditPage extends StatefulWidget {
-  ProfileEditPage({Key? key, this.title}) : super(key: key);
+class PickUserPage extends StatefulWidget {
+  PickUserPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _ProfileEditState createState() => _ProfileEditState();
+  _PickUserState createState() => _PickUserState();
 }
 
-class _ProfileEditState extends State<ProfileEditPage> {
+class _PickUserState extends State<PickUserPage> {
   final PageController controller = PageController(initialPage: 0);
 
   @override
@@ -31,7 +31,6 @@ class _ProfileEditState extends State<ProfileEditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: profileEditAppBar(),
       body: Stack(
         children: [
           backgroundGradient(),
@@ -41,25 +40,10 @@ class _ProfileEditState extends State<ProfileEditPage> {
               pagerWithPhotos(),
               basicUserInfo(),
               userDescription(),
-              editDescriptionButton()
             ],
           ),
         ],
       ),
-    );
-  }
-
-  Padding editDescriptionButton() {
-    return Padding(
-      padding: EdgeInsets.only(left: 24, top: 24),
-      child: RichText(
-          text: TextSpan(
-        text: "Edytuj opis",
-        style: TextStyle(
-            decoration: TextDecoration.underline,
-            fontSize: 18,
-            fontWeight: FontWeight.bold),
-      )),
     );
   }
 
@@ -100,7 +84,7 @@ class _ProfileEditState extends State<ProfileEditPage> {
 
   Container pagerWithPhotos() {
     return Container(
-      height: MediaQuery.of(context).size.height * 3 / 5,
+      height: MediaQuery.of(context).size.height * 4 / 5,
       child: Stack(
         children: [
           Container(
@@ -135,42 +119,31 @@ class _ProfileEditState extends State<ProfileEditPage> {
               ],
             ),
           ),
-          photoButton()
+          Positioned(
+            bottom: 0,
+            left: 0.5,
+            right: 0.5,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                actionButton("assets/images/icon_refuse_user.png"),
+                actionButton("assets/images/icon_like_user.png"),
+                actionButton("assets/images/icon_pick_user.png")
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 
-  Positioned photoButton() {
-    return Positioned(
-      bottom: 0,
-      left: 0.5,
-      right: 0.5,
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 12),
-        child: CircleButton(
-          backgroundColor: Colors.white,
-          icon: Icon(
-            Icons.camera_alt,
-            size: 30,
-          ),
-          onTap: () {
-            _navigateToGallery();
-          },
-          size: 60,
-        ),
-      ),
-    );
-  }
-
-  AppBar profileEditAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      iconTheme: IconThemeData(color: Colors.blue),
-      actionsIconTheme: IconThemeData(color: Colors.blue),
-      title: Text(
-        "Profil",
-        style: TextStyle(color: Colors.black),
+  Padding actionButton(String icon) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 26, right: 8, left: 8),
+      child: Image.asset(
+        icon,
+        width: 100,
+        height: 100,
       ),
     );
   }

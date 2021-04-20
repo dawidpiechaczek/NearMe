@@ -1,3 +1,4 @@
+import 'package:NearMe/screen/pick_user.dart';
 import 'package:NearMe/screen/profile_edit.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/circleButton.dart';
@@ -31,6 +32,12 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
   void _navigateToProfileEdit() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ProfileEditPage();
+    }));
+  }
+
+  void _navigateToUserPick() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return PickUserPage();
     }));
   }
 
@@ -149,15 +156,20 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               preferenceItem("assets/images/icon_group.png", "Preferencje",
-                  "Wybierz właściwości do spotkania"),
+                  "Wybierz właściwości do spotkania", () {
+                _navigateToUserPick();
+              }),
               preferenceItem("assets/images/icon_heart.png", "Ulubione",
-                  "Zobacz kto polubił Twój profil"),
+                  "Zobacz kto polubił Twój profil", () {}),
               preferenceItem("assets/images/icon_user_add.png", "Zaproś osoby",
-                  "Zarabiaj na polecaniu znajomych"),
-              preferenceItem("assets/images/icon_settings.png",
-                  "Ustawienia aplikacji", "Sprawdź najnowsze powiadomienia"),
+                  "Zarabiaj na polecaniu znajomych", () {}),
+              preferenceItem(
+                  "assets/images/icon_settings.png",
+                  "Ustawienia aplikacji",
+                  "Sprawdź najnowsze powiadomienia",
+                  () {}),
               preferenceItem("assets/images/icon_help.png", "Pomoc",
-                  "Najczestsze pytania uzytkowników"),
+                  "Najczestsze pytania uzytkowników", () {}),
             ],
           ),
         ),
@@ -165,17 +177,24 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
     );
   }
 
-  Padding preferenceItem(String iconAsset, String title, String message) {
+  Padding preferenceItem(
+      String iconAsset, String title, String message, Function doOnClick) {
     return Padding(
-      padding: EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 8),
+      padding: EdgeInsets.only(top: 8, right: 12, left: 12, bottom: 8),
       child: InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        onTap: () {},
+        onTap: () {
+          doOnClick();
+        },
         child: Row(children: [
           Padding(
-            padding: EdgeInsets.only(left: 8, right: 16),
-            child: Image.asset(iconAsset),
+            padding: EdgeInsets.only(left: 8, right: 12),
+            child: Image.asset(
+              iconAsset,
+              width: 20,
+              height: 20,
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,10 +207,13 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              Text(
-                message,
-                style: TextStyle(color: Colors.black, fontSize: 16),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Text(
+                  message,
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
               )
             ],
           ),
@@ -203,7 +225,9 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
   BottomNavigationBar bottomNavigationBar() {
     return BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.bolt), label: 'Nearby'),
+          BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage("assets/images/near_app_icon.png")),
+              label: 'Nearby'),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications), label: 'Notifications'),
           BottomNavigationBarItem(icon: Icon(Icons.place), label: 'Met people'),
