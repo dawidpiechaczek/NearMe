@@ -1,20 +1,21 @@
 import 'package:NearMe/screen/pick_user.dart';
+import 'package:NearMe/screen/preferences.dart';
 import 'package:NearMe/screen/profile_edit.dart';
 import 'package:NearMe/widgets/appBackground.dart';
 import 'package:NearMe/widgets/circleButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProfilePreferencesPage extends StatefulWidget {
-  ProfilePreferencesPage({Key? key, this.title}) : super(key: key);
+class ProfileSettingsPage extends StatefulWidget {
+  ProfileSettingsPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  _ProfilePreferencesState createState() => _ProfilePreferencesState();
+  _ProfileSettingsState createState() => _ProfileSettingsState();
 }
 
-class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
+class _ProfileSettingsState extends State<ProfileSettingsPage> {
   int _selectedIndex = 0;
 
   @override
@@ -38,6 +39,12 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
   void _navigateToUserPick() {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return PickUserPage();
+    }));
+  }
+
+  void _navigateToPreferences() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return PreferencesPage();
     }));
   }
 
@@ -157,10 +164,12 @@ class _ProfilePreferencesState extends State<ProfilePreferencesPage> {
             children: [
               preferenceItem("assets/images/icon_group.png", "Preferencje",
                   "Wybierz właściwości do spotkania", () {
-                _navigateToUserPick();
+                _navigateToPreferences();
               }),
               preferenceItem("assets/images/icon_heart.png", "Ulubione",
-                  "Zobacz kto polubił Twój profil", () {}),
+                  "Zobacz kto polubił Twój profil", () {
+                _navigateToUserPick();
+              }),
               preferenceItem("assets/images/icon_user_add.png", "Zaproś osoby",
                   "Zarabiaj na polecaniu znajomych", () {}),
               preferenceItem(
